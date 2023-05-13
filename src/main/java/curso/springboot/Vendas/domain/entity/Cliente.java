@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @ToString
 @Getter
 @Setter
@@ -20,6 +22,10 @@ public class Cliente {
     @Column(name = "nome", length = 100)
     private String nome;
 
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos;
+
+//    construtores:
     public Cliente() {
     }
 
@@ -31,4 +37,5 @@ public class Cliente {
         this.id = id;
         this.nome = nome;
     }
+//
 }
