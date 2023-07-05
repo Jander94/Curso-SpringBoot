@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -23,6 +25,18 @@ public class Pedido {
     @Column(name = "data_pedido")
     private LocalDate dataPedido;
 
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itens;
+
     @Column(name = "total", precision = 20, scale = 2)
     private BigDecimal total;
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+            "id=" + id +
+            ", dataPedido=" + dataPedido +
+            ", total=" + total +
+            '}';
+    }
 }

@@ -1,37 +1,39 @@
 package curso.springboot.Vendas;
 
 import curso.springboot.Vendas.domain.entity.Cliente;
-import curso.springboot.Vendas.domain.repository.Clientes;
+import curso.springboot.Vendas.domain.entity.Pedido;
+import curso.springboot.Vendas.domain.repository.ClienteRepository;
+import curso.springboot.Vendas.domain.repository.PedidosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @SpringBootApplication
 public class VendasApplication {
 
 	@Bean
-	public CommandLineRunner init (@Autowired Clientes clientes){
+	public CommandLineRunner init (@ Autowired ClienteRepository clientes, @Autowired PedidosRepository pedido ){
 		return args -> {
 //			Salvando Clientes
-			clientes.save(new Cliente("Jander"));
-			clientes.save(new Cliente("Gustavo"));
-			clientes.save(new Cliente("Yago"));
-			List<Cliente> todosClientes = clientes.findAll();
-			todosClientes.forEach(System.out::println);
+			Cliente jander = new Cliente("Jander");
+			clientes.save(jander);
 
-//			Checa se existe
-			System.out.println("Existe o nome: " + clientes.existsByNome("Jander"));
-//			System.out.println("Existe o nome: " + clientes.findByNomeLike("%o%"));
 
-//			Deletar cliente
-			clientes.deleteByNome("Yago");
-			System.out.println("Lista depois do delete: ");
-			todosClientes = clientes.findAll();
-			todosClientes.forEach(System.out::println);
+			Pedido pedidoJander = new Pedido();
+			pedidoJander.setCliente(jander);
+			pedidoJander.setDataPedido( LocalDate.now() );
+			pedidoJander.setTotal( BigDecimal.valueOf( 100 ) );
+			pedido.save(pedidoJander);
+
+			Cliente clienteBuscado = clientes.findClienteFetchPedidos(jander.getId());
+			System.out.println(clienteBuscado);
+			System.out.println(clienteBuscado.getPedidos());
+
 		};
 	}
 
