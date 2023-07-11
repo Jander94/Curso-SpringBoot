@@ -1,5 +1,6 @@
 package curso.springboot.Vendas.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,8 +23,12 @@ public class Cliente {
     @Column(name = "nome", length = 100)
     private String nome;
 
+    @Column(name = "cpf", length = 11)
+    private String cpf;
+
     // LAZY -> Buscar os clientes sem os pedidos
     //EAGER -> Buscar os clientes com os pedidos
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
 
