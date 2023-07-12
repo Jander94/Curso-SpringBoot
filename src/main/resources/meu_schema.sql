@@ -1,3 +1,5 @@
+-- Para rodar automaticamente, o nome deve ser data.sql
+
 CREATE TABLE CLIENTE (
     ID INTEGER PRIMARY KEY AUTO_INCREMENT,
     NOME VARCHAR(100)
