@@ -3,7 +3,6 @@ package curso.springboot.Vendas.rest.controller;
 import curso.springboot.Vendas.domain.entity.Produto;
 import curso.springboot.Vendas.domain.repository.ProdutoRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
