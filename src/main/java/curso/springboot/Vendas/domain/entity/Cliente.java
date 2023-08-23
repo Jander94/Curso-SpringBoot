@@ -2,15 +2,15 @@ package curso.springboot.Vendas.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
 @ToString
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "cliente")
 public class Cliente {
@@ -32,9 +32,7 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
 
-//    construtores:
-    public Cliente() {
-    }
+
 
     public Cliente(String nome) {
         this.nome = nome;
@@ -45,13 +43,5 @@ public class Cliente {
         this.nome = nome;
     }
 
-    @Override
-    public String toString() {
-        return "Cliente{" +
-            "id=" + id +
-            ", nome='" + nome + '\'' +
-            ", pedidos=" + pedidos +
-            '}';
-    }
-    //
+
 }
