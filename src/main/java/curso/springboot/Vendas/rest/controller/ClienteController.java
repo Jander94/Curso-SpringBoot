@@ -2,6 +2,7 @@ package curso.springboot.Vendas.rest.controller;
 
 import curso.springboot.Vendas.domain.entity.Cliente;
 import curso.springboot.Vendas.domain.repository.ClienteRepository;
+import curso.springboot.Vendas.exception.RegraNegocioException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class ClienteController {
   @GetMapping("{id}")
   public Cliente ClienteById(@PathVariable("id") Integer id){
     return clienteRepository.findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado - findById"));
+        .orElseThrow(() -> new RegraNegocioException("Cliente não encontrado - findById"));
   }
 
   @PostMapping

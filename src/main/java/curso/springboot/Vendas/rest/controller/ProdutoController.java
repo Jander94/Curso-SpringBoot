@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/produto")
 @AllArgsConstructor
@@ -25,6 +27,11 @@ public class ProdutoController {
     return produtoRepository.findById(id)
         .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado - findById"));
   }
+  @GetMapping
+  public List<Produto> findAllProdutos (){
+    return produtoRepository.findAll();
+  }
+
   @DeleteMapping("{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void delete (@PathVariable Integer id) {
