@@ -2,8 +2,10 @@ package curso.springboot.Vendas.rest.controller;
 
 import curso.springboot.Vendas.domain.entity.ItemPedido;
 import curso.springboot.Vendas.domain.entity.Pedido;
+import curso.springboot.Vendas.domain.enums.StatusPedido;
 import curso.springboot.Vendas.domain.repository.PedidosRepository;
 import curso.springboot.Vendas.exception.RegraNegocioException;
+import curso.springboot.Vendas.rest.dto.AtualizacaoStatusPedidoDTO;
 import curso.springboot.Vendas.rest.dto.InfoItensPedidoDTO;
 import curso.springboot.Vendas.rest.dto.InfoPedidosDTO;
 import curso.springboot.Vendas.rest.dto.PedidoDTO;
@@ -41,9 +43,11 @@ public class PedidoController {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Pedido não encontrado."));
     }
 
-    @GetMapping
-    public List<Pedido> pedidos (){
-        return pedidosRepository.findAll();
+    @PatchMapping("{id}")
+    @ResponseStatus(NO_CONTENT)
+    public void updateStatus(@PathVariable Integer id,
+                             @RequestBody AtualizacaoStatusPedidoDTO dto){
+        pedidoService.atualizaStatus(id, StatusPedido.valueOf(dto.getNovoStatus()));
     }
 
     private InfoPedidosDTO converter(Pedido pedido){
@@ -53,6 +57,7 @@ public class PedidoController {
           .cpf(pedido.getCliente().getCpf())
           .nomeCliente(pedido.getCliente().getNome())
           .total(pedido.getTotal())
+          .status(pedido.getStatus().name())
           .items(converter(pedido.getItens()))
           .build();
     }
@@ -71,4 +76,6 @@ public class PedidoController {
                         .build()
                 ).collect(Collectors.toList());
     }
+
+
 }

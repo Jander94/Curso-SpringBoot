@@ -4,10 +4,12 @@ import curso.springboot.Vendas.domain.entity.Cliente;
 import curso.springboot.Vendas.domain.entity.ItemPedido;
 import curso.springboot.Vendas.domain.entity.Pedido;
 import curso.springboot.Vendas.domain.entity.Produto;
+import curso.springboot.Vendas.domain.enums.StatusPedido;
 import curso.springboot.Vendas.domain.repository.ClienteRepository;
 import curso.springboot.Vendas.domain.repository.ItensPedidoRepository;
 import curso.springboot.Vendas.domain.repository.PedidosRepository;
 import curso.springboot.Vendas.domain.repository.ProdutoRepository;
+import curso.springboot.Vendas.exception.PedidoNaoEncontradoException;
 import curso.springboot.Vendas.exception.RegraNegocioException;
 import curso.springboot.Vendas.rest.dto.ItensPedidoDTO;
 import curso.springboot.Vendas.rest.dto.PedidoDTO;
@@ -40,6 +42,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setTotal(pedidoDTO.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedido.REALIZADO);
         List<ItemPedido> itensPedidos = converterItens(pedido, pedidoDTO.getItens());
         pedidosRepository.save(pedido);
         itensPedidoRepository.saveAll(itensPedidos);
@@ -52,7 +55,18 @@ public class PedidoServiceImpl implements PedidoService {
     return pedidosRepository.findByIdFetchItens(id);
   }
 
-  public List<ItemPedido> converterItens (Pedido pedido,List<ItensPedidoDTO> itens) {
+    @Override
+    @Transactional
+    public void atualizaStatus(Integer id, StatusPedido status) {
+        pedidosRepository.findById(id)
+                .map(p -> {
+                    p.setStatus(status);
+                    return pedidosRepository.save(p);
+                })
+                .orElseThrow(PedidoNaoEncontradoException::new);
+    }
+
+    public List<ItemPedido> converterItens (Pedido pedido,List<ItensPedidoDTO> itens) {
         if (itens.isEmpty()) {
             throw new RegraNegocioException("Não é possível realizar um pedido sem itens.");
         }
@@ -70,6 +84,5 @@ public class PedidoServiceImpl implements PedidoService {
                     itemPedido.setProduto(produto);
                     return itemPedido;
                 }).collect(Collectors.toList());
-
     }
 }

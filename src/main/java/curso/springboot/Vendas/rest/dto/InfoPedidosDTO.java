@@ -18,5 +18,6 @@ public class InfoPedidosDTO {
   private String cpf;
   private BigDecimal total;
   private String dataPedido;
+  private String status;
   private List<InfoItensPedidoDTO> items;
 }

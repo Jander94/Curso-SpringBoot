@@ -1,5 +1,6 @@
 package curso.springboot.Vendas.domain.entity;
 
+import curso.springboot.Vendas.domain.enums.StatusPedido;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,10 @@ public class Pedido {
 
     @Column(name = "data_pedido")
     private LocalDate dataPedido;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private StatusPedido status;
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens;
