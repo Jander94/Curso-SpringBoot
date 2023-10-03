@@ -5,8 +5,11 @@ import curso.springboot.Vendas.rest.dto.ItensPedidoDTO;
 import curso.springboot.Vendas.rest.dto.PedidoDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface PedidoService {
   Pedido salvar (PedidoDTO pedidoDTO);
+
+  Optional<Pedido> obterPedidoCompleto(Integer id);
 }

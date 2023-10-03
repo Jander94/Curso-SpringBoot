@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,7 +47,12 @@ public class PedidoServiceImpl implements PedidoService {
         return pedido;
     }
 
-    public List<ItemPedido> converterItens (Pedido pedido,List<ItensPedidoDTO> itens) {
+  @Override
+  public Optional<Pedido> obterPedidoCompleto(Integer id) {
+    return pedidosRepository.findByIdFetchItens(id);
+  }
+
+  public List<ItemPedido> converterItens (Pedido pedido,List<ItensPedidoDTO> itens) {
         if (itens.isEmpty()) {
             throw new RegraNegocioException("Não é possível realizar um pedido sem itens.");
         }
@@ -66,5 +72,4 @@ public class PedidoServiceImpl implements PedidoService {
                 }).collect(Collectors.toList());
 
     }
-
 }
