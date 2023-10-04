@@ -3,6 +3,7 @@ package curso.springboot.Vendas.rest.controller;
 import curso.springboot.Vendas.domain.entity.Cliente;
 import curso.springboot.Vendas.domain.repository.ClienteRepository;
 import curso.springboot.Vendas.exception.RegraNegocioException;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class ClienteController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Cliente save(@RequestBody Cliente cliente){
+  public Cliente save(@RequestBody @Valid Cliente cliente){
     return clienteRepository.save(cliente);
   }
 
