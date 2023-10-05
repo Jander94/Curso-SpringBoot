@@ -29,8 +29,8 @@ public class Cliente {
     private String nome;
 
     @Column(name = "cpf", length = 11)
-    @NotEmpty(message = "Campo cpf é obrigatório.")
-    @CPF
+    @NotEmpty(message = "Campo CPF é obrigatório.")
+    @CPF(message = "CPF inválido.")
     private String cpf;
 
     // LAZY -> Buscar os clientes sem os pedidos

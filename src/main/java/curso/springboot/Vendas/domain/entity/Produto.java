@@ -1,6 +1,8 @@
 package curso.springboot.Vendas.domain.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +22,10 @@ public class Produto {
     private Integer id;
 
     @Column(name = "descricao")
+    @NotEmpty(message = "Campo descrição é obrigatório")
     private String descricao;
 
     @Column(name = "preco_unitario")
+    @NotNull(message = "Campo Preço é obrigatório")
     private BigDecimal preco;
 }
