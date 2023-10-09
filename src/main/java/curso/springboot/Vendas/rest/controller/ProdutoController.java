@@ -33,6 +33,19 @@ public class ProdutoController {
     return produtoRepository.findAll();
   }
 
+  @PutMapping("{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void update (@PathVariable Integer id,
+                      @RequestBody @Valid Produto produto) {
+    produtoRepository.findById(id)
+        .map(p -> {
+          produto.setId(p.getId());
+          produtoRepository.save(produto);
+          return produto;
+        })
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
+  }
+
   @DeleteMapping("{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void delete (@PathVariable Integer id) {

@@ -10,6 +10,7 @@ import curso.springboot.Vendas.rest.dto.InfoItensPedidoDTO;
 import curso.springboot.Vendas.rest.dto.InfoPedidosDTO;
 import curso.springboot.Vendas.rest.dto.PedidoDTO;
 import curso.springboot.Vendas.service.PedidoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class PedidoController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Integer save(@RequestBody PedidoDTO pedidoDTO){
+    public Integer save(@RequestBody @Valid PedidoDTO pedidoDTO){
         Pedido pedido = pedidoService.salvar(pedidoDTO) ;
         return pedido.getId();
     }
